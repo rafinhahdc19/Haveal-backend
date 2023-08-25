@@ -100,7 +100,7 @@ const login = async (req, res) => {
                         from: emailctt,
                         to: user.email,
                         subject: "haveal autentication",
-                        html: `<p>Clique no link abaixo para autenticar:</p><a href='http://localhost:3000/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
+                        html: `<p>Clique no link abaixo para autenticar:</p><a href='https://haveal-backend.vercel.app/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
                     }, async function(error, info){
                         if (error) {
                             await prisma.users.delete({
@@ -151,7 +151,7 @@ const login = async (req, res) => {
                                 from: emailctt,
                                 to: user.email,
                                 subject: "haveal autentication",
-                                html: `<p>Clique no link abaixo para autenticar:</p><a href='http://localhost:3000/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
+                                html: `<p>Clique no link abaixo para autenticar:</p><a href='https://haveal-backend.vercel.app/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
                             }, async function(error, info){
                                 if (error) {
                                     await prisma.users.delete({
