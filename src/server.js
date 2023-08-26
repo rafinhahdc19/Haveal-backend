@@ -14,10 +14,10 @@ app.use((req, res, next) => {
 });
 
 
-app.use(cors({
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, 
-}));
+//app.use(cors({
+//    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//    credentials: true, 
+//}));
 app.post('/', (req, res) => {
     const { numero1, numero2 } = req.body
     res.status(200).json(numero1 + numero2)
