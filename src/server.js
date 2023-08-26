@@ -5,11 +5,11 @@ const app = express()
 const PORT = 80
 
 app.use(express.json())
-//const corsOptions = {
-//    origin: 'http://localhost:3000'
-//  };
-//  
-//  app.use(cors(corsOptions));
+const corsOptions = {
+    origin: 'https://haveal-frontend.vercel.app'
+  };
+  
+  app.use(cors(corsOptions));
 app.use(cors())
 app.use(routes)
 
