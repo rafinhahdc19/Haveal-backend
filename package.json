@@ -10,7 +10,9 @@
   
   "scripts": {
     
-  "prisma:generate": "npx prisma generate"
+  "prisma:generate": "prisma generate",
+    
+  "build": "npm run prisma:generate",
     
   "test": "echo \"Error: no test specified\" && exit 1",
   
