@@ -16,6 +16,9 @@
     "env": {
       "PRISMA_GENERATE": "true"
     },
+  "scripts": {
+    "build": "npm run prisma:generate && <outro comando de construção, se necessário>"
+  }
     "commands": [
       "npm install -g prisma",
       "prisma generate"
