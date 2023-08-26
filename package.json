@@ -17,16 +17,8 @@
   
   "scripts": {
   
-    
-  "prisma:generate": "npx prisma generate",
-  
-    
-  "build": "npm run prisma:generate && tsup src",
-  
-    
-  "start": "node dist/server.js",
-  
-    
+  "vercel-build": "npx prisma generate deploy",
+
   "test": "echo \"Error: no test specified\" && exit 1",
   
     
