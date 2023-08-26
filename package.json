@@ -8,7 +8,23 @@
   
   "main": "index.js",
   
+  "engines": {
+  
+    
+  "node": "18"
+  
+  },
+  
   "scripts": {
+  
+    
+  "prisma:generate": "npx prisma generate",
+  
+    
+  "build": "npm run prisma:generate && tsup src",
+  
+    
+  "start": "node dist/server.js",
   
     
   "test": "echo \"Error: no test specified\" && exit 1",
@@ -91,6 +107,9 @@
   
     
   "slugify": "^1.6.6",
+  
+    
+  "tsup": "^7.2.0",
   
     
   "uuid": "^9.0.0"
