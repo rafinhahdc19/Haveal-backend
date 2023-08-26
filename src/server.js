@@ -10,8 +10,13 @@ const corsOptions = {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };
-app.use(cors(corsOptions));
+
 app.use(routes)
+
+app.use((req,res,next) => {
+    res.header("Access-Control-Allow-Origin", "https://haveal-frontend.vercel.app")
+    app.use(cors(corsOptions));
+})
 
 app.post('/', (req, res) => {
     const { numero1, numero2 } = req.body
