@@ -4,6 +4,7 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 const routes = express.Router()
 const jwt = require("jsonwebtoken")
+const cors = require('cors')
 
 
 const Multer = multer({
@@ -18,6 +19,11 @@ const Multer = multer({
       }
 })
 
+routes.use(cors({
+  origin: 'https://haveal-frontend.vercel.app',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
 
 const insert = require("./controllers/uploadController")
 const deletes = require("./controllers/deleteController")
