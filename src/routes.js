@@ -20,7 +20,7 @@ const Multer = multer({
 })
 
 routes.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://haveal-frontend.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
