@@ -123,27 +123,13 @@ routes.get('/getuser/',checkToken, async (req,res) => {
     return res.send(400).json({ msg: "token invalido!" })
   }
 
-  const emailDBProvider = await prisma.usersProvider.findMany({
-    where: {
-        id: id,
-    },
-    })
     const emailDB = await prisma.users.findMany({
         where: {
             id: id,
         },
     })
     if(emailDB.length <= 0){//email nao existe
-        if(emailDBProvider.length <= 0){//email nao existe
-          return res.status(422).json({ error: 'Usuário não encontrado' });
-        }else{
-          user = {
-            id: emailDBProvider[0].id,
-            nome: emailDBProvider[0].nome,
-            email: emailDBProvider[0].email
-          }
-          return res.status(200).json({user})
-        }
+      return res.status(422).json({ error: 'Usuário não encontrado' });
     }else{
       user = {
         id: emailDB[0].id,

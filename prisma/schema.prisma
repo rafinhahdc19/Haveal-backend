@@ -43,6 +43,5 @@ model users {
   status  String
   data    DateTime
   VSlug   String   @unique
-  car     Json[]
   cpf     String?
 }

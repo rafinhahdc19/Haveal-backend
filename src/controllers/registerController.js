@@ -44,6 +44,7 @@ const login = async (req, res) => {
             },
         })
         if(login){
+            console.log(emailDB)
             if (emailDB && emailDB.length > 0 && emailDB[0].status === "1"){
                 const checkpwddb = await bcrypt.compare(senha, emailDB[0].senha)
                 if(checkpwddb){
@@ -82,7 +83,7 @@ const login = async (req, res) => {
                 const dateFormatted = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
 
                 const slug = `${email.replace(/\s+/g, '-')}-${uuidFirstPart}-${dateFormatted}`;
-                const user = await prisma.users.create({data: {nome, email, senha:senhaCrypt, status, data:now, VSlug:slug, car: [] }, 
+                const user = await prisma.users.create({data: {nome, email, senha:senhaCrypt, status, data:now, VSlug:slug }, 
                     select: {
                         id: true,
                         nome: true,
@@ -93,7 +94,7 @@ const login = async (req, res) => {
                         from: emailctt,
                         to: user.email,
                         subject: "haveal autentication",
-                        html: `<p>Clique no link abaixo para autenticar:</p><a href='https://haveal-backend.vercel.app/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
+                        html: `<p>Clique no link abaixo para autenticar:</p><a href='https://haveal-frontend.vercel.app/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
                     }, async function(error, info){
                         if (error) {
                             await prisma.users.delete({
@@ -130,7 +131,7 @@ const login = async (req, res) => {
                     const dateFormatted = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
 
                     const slug = `${email.replace(/\s+/g, '-')}-${uuidFirstPart}-${dateFormatted}`;
-                    const user = await prisma.users.update({data: {nome, email, senha:senhaCrypt, status, data:now, VSlug:slug, car: [] }, 
+                    const user = await prisma.users.update({data: {nome, email, senha:senhaCrypt, status, data:now, VSlug:slug }, 
                         where:{
                             email:userdbs.email
                         },
@@ -144,7 +145,7 @@ const login = async (req, res) => {
                                 from: emailctt,
                                 to: user.email,
                                 subject: "haveal autentication",
-                                html: `<p>Clique no link abaixo para autenticar:</p><a href='https://haveal-backend.vercel.app/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
+                                html: `<p>Clique no link abaixo para autenticar:</p><a href='https://haveal-frontend.vercel.app/auth/emailverify/verify/${slug}'>Link de Autenticação</a>`
                             }, async function(error, info){
                                 if (error) {
                                     await prisma.users.delete({
