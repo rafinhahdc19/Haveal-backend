@@ -38,11 +38,6 @@ const login = async (req, res) => {
     const emailVerify = async (email) =>{
         //db verify
         
-        const emailDBProvider = await prisma.usersProvider.findMany({
-            where: {
-                email: email,
-            },
-        })
         const emailDB = await prisma.users.findMany({
             where: {
                 email: email,
@@ -68,8 +63,6 @@ const login = async (req, res) => {
                 }else{
                     return res.status(422).json("O nome ou senha incorreto")
                 }
-            }else if(emailDBProvider && emailDBProvider.length > 0){
-                return res.status(422).json("Você ja fez o login anteriormente por outro meio")
             }
             else if(emailDB && emailDB.length > 0 && emailDB[0].status === "0"){
                 return res.status(422).json("Essa conta nao está verificada, por favor, verifique o seu email.")
@@ -78,7 +71,7 @@ const login = async (req, res) => {
                 return res.status(422).json("Não encontramos essa conta, por favor, registre-se")
             }
         }
-        if(emailDBProvider.length <= 0){//email nao existe
+        
             if(emailDB.length <= 0){//email nao existe
                 
                 const salt = await bcrypt.genSalt(12)
@@ -190,9 +183,7 @@ const login = async (req, res) => {
                 
                 
             }
-        }else{
-            return res.status(422).json("o email ja esta em uso")
-        }
+
     }
     emailVerify(email)
 }
