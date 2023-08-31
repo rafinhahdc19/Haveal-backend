@@ -196,85 +196,8 @@ const login = async (req, res) => {
     }
     emailVerify(email)
 }
-const loginProvider = async (req, res) => {
-    const { email, nome } = req.body
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if(!email || !emailRegex.test(email)){
-        return res.status(422).json({msg:"Email invalido"})
-    }
-    else if(!nome){
-        return res.status(422).json({msg:"Nome invalida"})
-    }
 
-    const emailVerify = async (email) =>{
-        //db verify
-        
-        const emailDBProvider = await prisma.usersProvider.findMany({
-            where: {
-                email: email,
-            },
-        })
-        const emailDB = await prisma.users.findMany({
-            where: {
-                email: email,
-            },
-        })
-        if(emailDB.length <= 0){//email nao existe
-            if(emailDBProvider.length <= 0){//email nao existe
-                
-                const user = await prisma.usersProvider.create({data: {nome, email, data:now, car: []}, 
-                select: {
-                    id: true,
-                    nome: true,
-                    email: true
-                }})
-                const token = jwt.sign({
-                    id: user[0].id
-                }, secret,)
-                user[0].jwt = token;
-                return res.status(200).json({user:user})
-            }
-            else{
-                const user = await prisma.usersProvider.findMany({
-                    select: {
-                        id: true,
-                        nome: true,
-                        email: true,
-                      },
-                })
-                const token = jwt.sign({
-                    id: user[0].id
-                }, secret,)
-                user[0].jwt = token;
-                return res.status(200).json({user:user})
-            }
-        }else{
-            const user = await prisma.users.findMany({
-                select: {
-                    id: true,
-                    nome: true,
-                    email: true,
-                  },
-            })
-            
-            const token = jwt.sign({
-                id: user[0].id
-            }, secret,)
-            user[0].jwt = token;
-            return res.status(200).json({user:user})
-            
-            
-            
-            
-            
-        }
-    }
-    emailVerify(email)
-    
-}
 
 module.exports = {
     login,
-    loginProvider
 };

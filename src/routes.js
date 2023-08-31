@@ -27,7 +27,7 @@ routes.use(cors({
 
 const insert = require("./controllers/uploadController")
 const deletes = require("./controllers/deleteController")
-const { login, loginProvider } = require("./controllers/registerController")
+const { login } = require("./controllers/registerController")
 const getitencar = require('./controllers/getitemarraycontroller')
 
 const uploadImage = require("./services/firebase")
@@ -39,7 +39,6 @@ const { app } = require('firebase-admin')
 //public route
 routes.post("/getitemcar", getitencar)
 routes.post("/login", login)
-routes.post("/login/provider", loginProvider)
 
 routes.get("/products", async (req, res) => {
     const allproducts = await prisma.produtos.findMany()
