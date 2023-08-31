@@ -32,11 +32,10 @@ const getitencar = require('./controllers/getitemarraycontroller')
 
 const uploadImage = require("./services/firebase")
 const { app } = require('firebase-admin')
-
-
-
+const payment = require('./controllers/paymentController')
 
 //public route
+routes.post("/pay", payment)
 routes.post("/getitemcar", getitencar)
 routes.post("/login", login)
 
