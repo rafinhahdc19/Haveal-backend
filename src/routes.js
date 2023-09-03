@@ -32,10 +32,11 @@ const getitencar = require('./controllers/getitemarraycontroller')
 
 const uploadImage = require("./services/firebase")
 const { app } = require('firebase-admin')
-const payment = require('./controllers/paymentController')
+const payment = require("./controllers/payController")
+const confirmpayment = require("./controllers/comfirmpayController")
 
 //public route
-routes.post("/pay", payment)
+
 routes.post("/getitemcar", getitencar)
 routes.post("/login", login)
 
@@ -97,18 +98,22 @@ routes.post('/auth/verify/user', async (req, res) => {
 });
 
 //private route 1
-routes.get('/getuser/',checkToken, async (req,res) => {
+routes.post("/pay",checkToken, payment)
+
+routes.post("/confirmpay",checkToken, confirmpayment)
+
+routes.get('/getuser',checkToken, async (req,res) => {
   if (!req.headers.authorization) {
     return res.status(401).json({ message: 'Token de autorização ausente' });
   }
   const authHeader = req.headers.authorization;
   if(!authHeader){
-    return res.send(401).json({ msg: "Acesso negado!" })
+    return res.status(401).json({ msg: "Acesso negado!" })
   }
   const token = authHeader && authHeader.split(" ")[1]
 
   if(!token){
-    return res.send(401).json({ msg: "Acesso negado!" })
+    return res.status(401).json({ msg: "Acesso negado!" })
   }
   let id = ""
   try{
@@ -119,7 +124,7 @@ routes.get('/getuser/',checkToken, async (req,res) => {
     id = decoded.id;
 
   }catch(error){
-    return res.send(400).json({ msg: "token invalido!" })
+    return res.status(400).json({ msg: "token invalido!" })
   }
 
     const emailDB = await prisma.users.findMany({
@@ -147,7 +152,7 @@ function checkToken(req, res, next){
   const token = authHeader && authHeader.split(" ")[1]
 
   if(!token){
-    return res.send(401).json({ msg: "Acesso negado!" })
+    return res.status(401).json({ msg: "Acesso negado!" })
   }
   try{
     const secrets = process.env.SECRET
@@ -157,7 +162,7 @@ function checkToken(req, res, next){
     next()
 
   }catch(error){
-    return res.send(400).json({ msg: "token invalido!" })
+    return res.status(400).json({ msg: "token invalido!" })
   }
 }
 

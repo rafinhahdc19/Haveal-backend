@@ -44,7 +44,6 @@ const login = async (req, res) => {
             },
         })
         if(login){
-            console.log(emailDB)
             if (emailDB && emailDB.length > 0 && emailDB[0].status === "1"){
                 const checkpwddb = await bcrypt.compare(senha, emailDB[0].senha)
                 if(checkpwddb){

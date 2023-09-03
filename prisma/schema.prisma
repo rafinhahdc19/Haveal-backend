@@ -20,19 +20,21 @@ model produtos {
 model orders {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   nome    String   
-  email   String   
+  email   String 
+  contato String    
   status  String
   data    DateTime
   itens   Json[]
-  pais    String   
   estado  String  
   cidade  String 
+  rua     String 
   cep     String  
   bairro  String   
   numero  String 
   complemento  String 
   cpf     String 
   value   String
+  paytoken String   @unique
 }
 
 model users {
