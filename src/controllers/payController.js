@@ -133,7 +133,7 @@ const payment = async (req,res) => {
         }
 
         try {
-          const response = await axios.post("/getitemcar", {
+          const response = await axios.post(process.env.BACKEND+"/getitemcar", {
             slugs:itens
           }).then(function (data){
             itensDB = data.data.itens

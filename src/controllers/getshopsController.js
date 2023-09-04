@@ -42,7 +42,7 @@ const getshops = async (req, res) => {
     }
     
     try {
-        const response = await axios.get("/getuser", {
+        const response = await axios.get(process.env.BACKEND+"/getuser", {
             headers: {
                 Authorization: `Bearer ${authHeader}`,
                 'Content-Type': 'application/json',
