@@ -35,6 +35,7 @@ model orders {
   complemento  String 
   cpf     String 
   value   String
+  slug    String   @unique
   paytoken String   @unique
 }
 

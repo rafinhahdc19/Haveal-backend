@@ -2,7 +2,7 @@ const stripe = require("../services/stripe")
 const axios = require('axios');
 const prisma = require("../services/prisma");
 const jwt = require("jsonwebtoken");
-
+const uuid = require('uuid');
 const payment = async (req,res) => {
     const {cpf, cep, contato, nome, numero, complemento, itens } = req.body;
     function isValidCPF(cpf) {
@@ -169,7 +169,12 @@ const payment = async (req,res) => {
           description:descriptionPay,
           currency:"BRL",
         });
-        const order = await prisma.orders.create({data: {nome:nome, email: user.email, contato, status: "0", statusInterno: "0", data:now, itens:itens, estado, cidade, rua, cep, bairro, numero, complemento, cpf, value: value, paytoken: paymentIntent.id}})
+        const uuidFirstPart = uuid.v4(); 
+                
+        const dateFormatted = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+
+        const slug = `order-${uuidFirstPart}-${dateFormatted}`;
+        const order = await prisma.orders.create({data: {nome:nome, email: user.email, contato, status: "0", statusInterno: "0", data:now, itens:itens, estado, cidade, rua, cep, bairro, numero, complemento, cpf, value: value, slug:slug, paytoken: paymentIntent.id}})
         if(order){
           return res.status(200).json({ clientSecret: paymentIntent.client_secret, idPay: paymentIntent.id });
         }else{

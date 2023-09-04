@@ -36,6 +36,7 @@ const payment = require("./controllers/payController")
 const confirmpayment = require("./controllers/comfirmpayController")
 const products = require('./controllers/searchItensController')
 const getshops = require("./controllers/getshopsController")
+const getshop = require("./controllers/getshopController")
 
 //public route
 
@@ -61,7 +62,6 @@ routes.post('/auth/verify/user', async (req, res) => {
   const { slug } = req.body;
 
   try {
-    // Verifique se o usuário já possui status "1"
     const existingUser = await prisma.users.findFirst({
       where: {
         VSlug: slug,
@@ -76,7 +76,7 @@ routes.post('/auth/verify/user', async (req, res) => {
     // Atualize o status do usuário
     const updatedUser = await prisma.users.update({
       where: {
-        VSlug: slug, // Defina VSlug com o valor correto
+        VSlug: slug,
       },
       data: {
         status: "1",
@@ -84,7 +84,6 @@ routes.post('/auth/verify/user', async (req, res) => {
     });
 
     if (updatedUser) {
-      // Faça o que precisa com updatedUser
       const user = {
         id: updatedUser.id,
         nome: updatedUser.nome,
@@ -103,6 +102,8 @@ routes.post('/auth/verify/user', async (req, res) => {
 
 //private route 1
 routes.get("/getshops",checkToken, getshops)
+
+routes.post("/getshop",checkToken, getshop)
 
 routes.post("/pay",checkToken, payment)
 
