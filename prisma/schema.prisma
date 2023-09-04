@@ -23,6 +23,7 @@ model orders {
   email   String 
   contato String    
   status  String
+  statusInterno  String
   data    DateTime
   itens   Json[]
   estado  String  

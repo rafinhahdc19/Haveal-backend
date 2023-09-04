@@ -169,7 +169,7 @@ const payment = async (req,res) => {
           description:descriptionPay,
           currency:"BRL",
         });
-        const order = await prisma.orders.create({data: {nome:nome, email: user.email, contato, status: "0", data:now, itens:itens, estado, cidade, rua, cep, bairro, numero, complemento, cpf, value: value, paytoken: paymentIntent.id}})
+        const order = await prisma.orders.create({data: {nome:nome, email: user.email, contato, status: "0", statusInterno: "0", data:now, itens:itens, estado, cidade, rua, cep, bairro, numero, complemento, cpf, value: value, paytoken: paymentIntent.id}})
         if(order){
           return res.status(200).json({ clientSecret: paymentIntent.client_secret, idPay: paymentIntent.id });
         }else{

@@ -34,16 +34,15 @@ const uploadImage = require("./services/firebase")
 const { app } = require('firebase-admin')
 const payment = require("./controllers/payController")
 const confirmpayment = require("./controllers/comfirmpayController")
+const products = require('./controllers/searchItensController')
+const getshops = require("./controllers/getshopsController")
 
 //public route
 
 routes.post("/getitemcar", getitencar)
 routes.post("/login", login)
 
-routes.get("/products", async (req, res) => {
-    const allproducts = await prisma.produtos.findMany()
-    res.send(allproducts)
-})
+routes.get("/products", products)
 routes.post("/product", async (req, res) => {
   const { slug } = req.body
   const product = await prisma.produtos.findMany({
@@ -51,7 +50,12 @@ routes.post("/product", async (req, res) => {
       slug:slug
     }
   })
-  res.send(product)
+  if(product){
+    return res.send(product)
+  }else{
+    return res.status(422).json({ error: 'Erro ao consultar' });
+  }
+
 })
 routes.post('/auth/verify/user', async (req, res) => {
   const { slug } = req.body;
@@ -98,6 +102,8 @@ routes.post('/auth/verify/user', async (req, res) => {
 });
 
 //private route 1
+routes.get("/getshops",checkToken, getshops)
+
 routes.post("/pay",checkToken, payment)
 
 routes.post("/confirmpay",checkToken, confirmpayment)
