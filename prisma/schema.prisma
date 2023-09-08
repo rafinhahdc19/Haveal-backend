@@ -18,6 +18,7 @@ model produtos {
   desc    String
   imgurl  String
   value   String
+  link    String
   data    DateTime
   slug    String   @unique
 }

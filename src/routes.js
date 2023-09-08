@@ -243,7 +243,7 @@ routes.get('/getuseradm',checkToken, async (req,res) => {
 
 routes.post("/insertproduct", checkToken, Multer.single("file"), uploadImage, insert)
 
-routes.post("/deleteproduct", checkToken, deletes)
+routes.delete("/deleteproduct", checkToken, deletes)
 
 
 module.exports = routes

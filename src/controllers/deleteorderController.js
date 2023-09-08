@@ -98,7 +98,7 @@ const deleteorderController = async (req, res) => {
             }
         }
     } catch (error) {
-        return res.status(500).json({ error: 'Acesso negado!: '+error});
+        return res.status(500).json({ error: 'Acesso negado!'});
     }
 }
 

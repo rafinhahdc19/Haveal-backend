@@ -8,7 +8,7 @@ const insert = async (req, res)  => {
         console.log(req)
     }
     const imgurl = req.file.firebaseUrl
-    const { nome, desc, value } = req.body
+    const { nome, desc, value, link } = req.body
     const uuidValue = uuid.v4();
     const uuidFirstPart = uuidValue.split('-')[0];
 
@@ -18,7 +18,7 @@ const insert = async (req, res)  => {
   
     // Cria a slug no formato {nome-uuid-diamesanohorasminutossegundos}
     const slug = `${nome.replace(/\s+/g, '-')}-${uuidFirstPart}-${dateFormatted}`;
-    const produto = await prisma.produtos.create({data:{ nome, desc, imgurl, value, data:now, slug}})
+    const produto = await prisma.produtos.create({data:{ nome, desc, imgurl, value, link, data:now, slug}})
     res.json(produto)
 }
 
