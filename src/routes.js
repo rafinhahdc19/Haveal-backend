@@ -38,7 +38,8 @@ const products = require('./controllers/searchItensController')
 const getshops = require("./controllers/getshopsController")
 const getshopsbyadm = require("./controllers/getshopsbyadmController")
 const getshop = require("./controllers/getshopController")
-
+const deleteorder = require("./controllers/deleteorderController")
+const rastreioupdate = require("./controllers/rastreioupdateController")
 
 //public route
 
@@ -103,6 +104,10 @@ routes.post('/auth/verify/user', async (req, res) => {
 });
 
 //private route 1
+routes.put("/order/rastreioupdate",checkToken, rastreioupdate)
+
+routes.delete("/order/delete",checkToken, deleteorder)
+
 routes.get("/getshops",checkToken, getshops)
 
 routes.post("/getshop",checkToken, getshop)
@@ -165,10 +170,20 @@ function checkToken(req, res, next){
   try{
     const secrets = process.env.SECRET
 
-    jwt.verify(token, secrets)
+    const usuario = jwt.verify(token, secrets)
+    if (!usuario || !usuario.data) {
+      return res.status(400).json({ msg: "Token inválido!" })
+    }
 
-    next()
+    const dataCriacaoCookie = new Date(usuario.data);
+    const dataAtual = new Date();
+    const diferencaEmDias = Math.floor((dataAtual - dataCriacaoCookie) / (1000 * 60 * 60 * 24));
 
+    if (diferencaEmDias >= 12) {
+      return res.status(400).json({ msg: "token invalido!" })
+    }else{
+      next()
+    }
   }catch(error){
     return res.status(400).json({ msg: "token invalido!" })
   }
@@ -226,9 +241,9 @@ routes.get('/getuseradm',checkToken, async (req,res) => {
     }
 })
 
-routes.post("/insertproduct", Multer.single("file"), uploadImage, insert)
+routes.post("/insertproduct", checkToken, Multer.single("file"), uploadImage, insert)
 
-routes.post("/deleteproduct",  deletes)
+routes.post("/deleteproduct", checkToken, deletes)
 
 
 module.exports = routes

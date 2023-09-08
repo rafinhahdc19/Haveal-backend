@@ -48,7 +48,8 @@ const login = async (req, res) => {
                 const checkpwddb = await bcrypt.compare(senha, emailDB[0].senha)
                 if(checkpwddb){
                     const token = jwt.sign({
-                        id: emailDB[0].id
+                        id: emailDB[0].id,
+                        data: now.toISOString()
                     }, secret,)
                     return res.status(200).json({
                         user: {
@@ -162,7 +163,8 @@ const login = async (req, res) => {
                     const checkpwddb = await bcrypt.compare(senha, userdbs.senha)
                     if(checkpwddb){
                         const token = jwt.sign({
-                            id: userdbs.id
+                            id: userdbs.id,
+                            data: now.toISOString()
                         }, secret,)
                         return res.status(200).json({
                             

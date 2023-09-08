@@ -68,7 +68,7 @@ const getshop = async (req, res) => {
             
             const itemsS = await getItens(response.data.user.email);
             if(itemsS){
-                if(response.data.user.email == itemsS[0].email){
+                if(response.data.user && response.data.user.email && itemsS[0].email  && response.data.user.email == itemsS[0].email){
                     const itensDBfromArrayV = await itensDBfromArray(itemsS)
                     itemsS[0].itens = itensDBfromArrayV;
                     return res.status(200).json({ itemsS });
