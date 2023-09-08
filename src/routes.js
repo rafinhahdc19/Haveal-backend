@@ -185,7 +185,7 @@ function checkToken(req, res, next){
       next()
     }
   }catch(error){
-    return res.status(400).json({ msg: "token invalido!" })
+    return res.status(400).json({ msg: "token invalidod!" })
   }
 }
 

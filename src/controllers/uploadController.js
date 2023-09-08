@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const prisma = require("../services/prisma")
+const axios = require("axios")
 
 const insert = async (req, res)  => {
     if (req.file){
@@ -47,10 +48,9 @@ const insert = async (req, res)  => {
                     const now = new Date();
                     const dateFormatted = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
                 
-                    // Cria a slug no formato {nome-uuid-diamesanohorasminutossegundos}
-                    const slug = `${nome.replace(/\s+/g, '-')}-${uuidFirstPart}-${dateFormatted}`;
+                    const slug = `${nome.replace(/\s+/g, '-').replace(/\//g, '-')}-${uuidFirstPart}-${dateFormatted}`;
                     const produto = await prisma.produtos.create({data:{ nome, desc, imgurl, value, link, data:now, slug}})
-                    res.json(produto)
+                    res.status(200).json(produto)
                 }
         }
     }catch (error) {
