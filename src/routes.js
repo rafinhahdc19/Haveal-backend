@@ -36,7 +36,9 @@ const payment = require("./controllers/payController")
 const confirmpayment = require("./controllers/comfirmpayController")
 const products = require('./controllers/searchItensController')
 const getshops = require("./controllers/getshopsController")
+const getshopsbyadm = require("./controllers/getshopsbyadmController")
 const getshop = require("./controllers/getshopController")
+
 
 //public route
 
@@ -150,7 +152,6 @@ routes.get('/getuser',checkToken, async (req,res) => {
       return res.status(200).json({user})
     }
 })
-
 function checkToken(req, res, next){
   if (!req.headers.authorization) {
     return res.status(401).json({ message: 'Token de autorização ausente' });
@@ -173,7 +174,57 @@ function checkToken(req, res, next){
   }
 }
 
+
+
 //private route 2
+routes.get("/getshopsbyadm",checkToken, getshopsbyadm)
+
+routes.get('/getuseradm',checkToken, async (req,res) => {
+  if (!req.headers.authorization) {
+    return res.status(401).json({ message: 'Token de autorização ausente' });
+  }
+  const authHeader = req.headers.authorization;
+  if(!authHeader){
+    return res.status(401).json({ msg: "Acesso negado!" })
+  }
+  const token = authHeader && authHeader.split(" ")[1]
+
+  if(!token){
+    return res.status(401).json({ msg: "Acesso negado!" })
+  }
+  let id = ""
+  try{
+    const secrets = process.env.SECRET
+
+    const decoded = jwt.verify(token, secrets);
+
+    id = decoded.id;
+
+  }catch(error){
+    return res.status(400).json({ msg: "token invalido!" })
+  }
+
+    const emailDB = await prisma.users.findMany({
+        where: {
+            id: id,
+        },
+    })
+    const admemailDB = await prisma.adms.findMany({
+      where: {
+          email: emailDB[0].email,
+      },
+    })
+    if(emailDB.length <= 0 || admemailDB.length <= 0){//email nao existe
+      return res.status(422).json({ error: 'Usuário não encontrado' });
+    }else{
+      user = {
+        id: emailDB[0].id,
+        nome: emailDB[0].nome,
+        email: emailDB[0].email
+      }
+      return res.status(200).json({user})
+    }
+})
 
 routes.post("/insertproduct", Multer.single("file"), uploadImage, insert)
 

@@ -73,7 +73,18 @@ const getshop = async (req, res) => {
                     itemsS[0].itens = itensDBfromArrayV;
                     return res.status(200).json({ itemsS });
                 } else{
-                    return res.status(401).json({ msg: "Acesso negado!" });
+                    const admConsult = await prisma.adms.findMany({
+                        where:{
+                            email:response.data.user.email
+                        }
+                    })
+                    if(admConsult.length > 0){
+                        const itensDBfromArrayV = await itensDBfromArray(itemsS)
+                        itemsS[0].itens = itensDBfromArrayV;
+                        return res.status(200).json({ itemsS });
+                    }else{
+                        return res.status(401).json({ msg: "Acesso negado!" });
+                    }
                 }
             
                 
