@@ -11,10 +11,16 @@ const emailcttpwd = process.env.PWDMAIL
 const transporter = nodemailer.createTransport({
     host:"smtp.office365.com",
     port: 587,
+    secure: false,
+     requireTLS: true,
     auth: {
         user: emailctt,
         pass: emailcttpwd, 
-    }
+    },
+    tls: {
+      ciphers: 'SSLv3',
+      rejectUnauthorized: false,
+    },
 })
 
 
