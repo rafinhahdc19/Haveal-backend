@@ -108,7 +108,7 @@ const login = async (req, res) => {
                                     email: user.email
                                 }
                             })
-                            res.status(422).json({msg:"Erro na verificação do email, tente fazer login por outro meio"})
+                            res.status(422).json("Erro na verificação do email, tente fazer login por outro meio")
                         } else {
                             return res.status(200).json({ verify:false })
                         }
